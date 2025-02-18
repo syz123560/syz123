@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Romantic Heart</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .heart {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 320px;
+            background: linear-gradient(45deg, #ff0066, #ff99cc, #ff0066);
+            border-radius: 200px 200px 0 0;
+            box-shadow: 0 0 50px #ff0066;
+            filter: drop-shadow(0 0 20px #ff0066);
+        }
+
+        .heart::before {
+            left: 200px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .love-text {
+            color: #ff99cc;
+            font-size: 3.5em;
+            margin-top: 50px;
+            text-shadow: 0 0 20px #ff0066;
+            position: relative;
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.2); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes textGlow {
+            0%, 100% { 
+                filter: hue-rotate(0deg);
+                transform: scale(1);
+            }
+            50% { 
+                filter: hue-rotate(60deg);
+                transform: scale(1.05);
+            }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .spark {
+            position: absolute;
+            background: radial-gradient(#ff99cc 20%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 1.5s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0% { 
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% { 
+                opacity: 0;
+                transform: scale(0) translateY(-100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container">
+        <div class="heart"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+    <div class="love-text">I LOVE YOU</div>
+
+    <script>
+        // 创建流光粒子
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const count = 30;
+            
+            for(let i = 0; i < count; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                
+                // 随机位置
+                const x = Math.random() * 400;
+                const y = Math.random() * 400;
+                spark.style.left = `${x}px`;
+                spark.style.top = `${y}px`;
+                
+                // 随机动画参数
+                const delay = Math.random() * 2;
+                const duration = 1 + Math.random() * 1;
+                spark.style.animationDelay = `${delay}s`;
+                spark.style.animationDuration = `${duration}s`;
+                
+                particles.appendChild(spark);
+            }
+        }
+
+        // 初始化粒子
+        createParticles();
+
+        // 添加心跳互动
+        document.querySelector('.heart').addEventListener('click', () => {
+            document.querySelector('.love-text').style.animation = 'none';
+            setTimeout(() => {
+                document.querySelector('.love-text').style.animation = 'textGlow 2s ease-in-out infinite';
+            }, 50);
+        });
+    </script>
+</body>
+</html>
